@@ -42,6 +42,7 @@
     "sass-loader": "^7.1.0",
     "ts-jest": "^23.0.0",
     "typescript": "^3.4.3",
+    "vue-cookies": "^1.5.13",
     "vue-template-compiler": "^2.6.10"
   },
   "gitHooks": {

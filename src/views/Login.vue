@@ -1,18 +1,26 @@
 <template>
-  <div>
-    <div class="form-group" :class="{ 'form-group--error': $v.email.$error }">
-      <label class="form__label">Email</label>
-      <input class="form__input" v-model.trim="$v.email.$model" />
+  <form @submit.prevent="submit">
+    <div :class="{ 'form-group--error': $v.username.$error }">
+      <label>username</label>
+      <input v-model.trim="$v.username.$model" />
     </div>
-    <div class="error" v-if="!$v.email.required">Field is required</div>
-    <div class="error" v-if="!$v.email.minLength">
-      Email must have at least {{ $v.email.$params.minLength.min }} letters.
+    <div v-if="!$v.username.required">Field is required</div>
+    <div v-if="!$v.username.minLength">
+      username must have at least
+      {{ $v.username.$params.minLength.min }} letters.
     </div>
-    <div class="form-group">
-      <label class="form__label">Password</label>
-      <input class="form__input" v-model.trim.lazy="$v.password.$model" />
+    <div>
+      <label>Password</label>
+      <input v-model.trim.lazy="$v.password.$model" />
     </div>
-  </div>
+    <div v-if="!$v.password.required">Field is required</div>
+    <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">
+      Submit!
+    </button>
+    <p v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+    <p v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
+    <p v-if="submitStatus === 'PENDING'">Sending...</p>
+  </form>
 </template>
 
 <script>
@@ -22,26 +30,41 @@ export default {
   name: "login",
   data() {
     return {
-      email: "",
-      password: ""
+      username: "",
+      password: "",
+      submitStatus: null
     };
   },
   validations: {
-    email: {
+    username: {
       required,
       minLength: minLength(4)
     },
-    password: {}
+    password: {
+      required
+    }
   },
   methods: {
-    login: function() {
-      let email = this.email;
-      let password = this.password;
-      console.log("Login");
-      // this.$store
-      //   .dispatch("login", { email, password })
-      //   .then(() => this.$router.push("/"))
-      //   .catch(err => console.log(err));
+    submit() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.submitStatus = "ERROR";
+      } else {
+        this.submitStatus = "PENDING";
+
+        let username = this.username;
+        let password = this.password;
+
+        this.$store
+          .dispatch("login", { username, password })
+          .then(() => {
+            this.submitStatus = "OK";
+            this.$router.push("/");
+          })
+          .catch(err => {
+            this.submitStatus = "ERROR";
+          });
+      }
     }
   }
 };

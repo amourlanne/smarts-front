@@ -9,6 +9,13 @@ import "./registerServiceWorker";
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
+
+declare global {
+  interface Window {
+    $cookies: any;
+  }
+}
+
 Vue.use(VueCookies);
 
 router.beforeEach((to, from, next) => {

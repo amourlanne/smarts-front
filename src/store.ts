@@ -4,28 +4,26 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
-declare global {
-  interface Window {
-    $cookies: any;
-  }
-}
+axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
   state: {
     accessToken: window.$cookies.get("access_token") || "",
     currentUser: {}
   },
-  mutations: {},
+  mutations: {
+    auth_success(state, payload) {
+      state.accessToken = window.$cookies.get("access_token") || "";
+      state.currentUser = payload.currentUser;
+    }
+  },
   actions: {
     login({ commit }, user) {
       return new Promise((resolve, reject) => {
-        axios({
-          url: "http://localhost:3000/api/login",
-          data: user,
-          method: "POST"
-        })
+        axios
+          .post("http://localhost:3000/api/login", user)
           .then(resp => {
-            console.log(resp);
+            commit("auth_success", { currentUser: resp.data });
             resolve(resp);
           })
           .catch(err => {

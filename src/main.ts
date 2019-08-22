@@ -11,6 +11,19 @@ Vue.config.productionTip = false;
 Vue.use(Vuelidate);
 Vue.use(VueCookies);
 
+router.beforeEach((to, from, next) => {
+  console.log(to.meta);
+  if (!(to.meta.requiresAuth === false)) {
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    next("/login");
+  } else {
+    next();
+  }
+});
+
 new Vue({
   router,
   store,

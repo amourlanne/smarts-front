@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import PageNotFound from "./views/PageNotFound.vue";
 
 Vue.use(Router);
 
@@ -28,6 +29,7 @@ export default new Router({
       meta: {
         requiresAuth: false
       }
-    }
+    },
+    { path: "*", component: PageNotFound }
   ]
 });

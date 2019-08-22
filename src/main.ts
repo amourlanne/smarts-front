@@ -19,13 +19,13 @@ declare global {
 Vue.use(VueCookies);
 
 router.beforeEach((to, from, next) => {
-  console.log(to.meta);
   if (!(to.meta.requiresAuth === false)) {
     if (store.getters.isLoggedIn) {
       next();
       return;
     }
-    next("/login");
+    store.commit("redirect_url", { redirectUrl: to.path });
+    next({ name: "login" });
   } else {
     next();
   }

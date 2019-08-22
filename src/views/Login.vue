@@ -18,7 +18,8 @@
       Submit!
     </button>
     <p v-if="submitStatus === 'OK'">Thanks for your submission!</p>
-    <p v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
+    <!--    <p v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>-->
+    <p v-if="submitStatus === 'ERROR'">{{ errorMessage }}</p>
     <p v-if="submitStatus === 'PENDING'">Sending...</p>
   </form>
 </template>
@@ -32,7 +33,8 @@ export default {
     return {
       username: "",
       password: "",
-      submitStatus: null
+      submitStatus: null,
+      errorMessage: null
     };
   },
   validations: {
@@ -47,22 +49,24 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.submitStatus = "ERROR";
-      } else {
+      if (!this.$v.$invalid) {
         this.submitStatus = "PENDING";
 
         let username = this.username;
         let password = this.password;
 
+        const redirectUrl = this.$store.state.redirectUrl;
+
         this.$store
           .dispatch("login", { username, password })
           .then(() => {
             this.submitStatus = "OK";
-            this.$router.push("/");
+            this.$router.push(redirectUrl);
           })
-          .catch(err => {
+          .catch(error => {
+            console.log(error);
             this.submitStatus = "ERROR";
+            this.errorMessage = error.message;
           });
       }
     }

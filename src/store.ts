@@ -17,6 +17,11 @@ export default new Vuex.Store({
       state.accessToken = window.$cookies.get("access_token") || "";
       state.currentUser = payload.currentUser;
     },
+    logout(state, payload) {
+      state.accessToken = "";
+      state.currentUser = {};
+      window.$cookies.remove("access_token");
+    },
     redirect_url(state, payload) {
       state.redirectUrl = payload.redirectUrl;
     }
@@ -33,6 +38,12 @@ export default new Vuex.Store({
           .catch(error => {
             reject(error.response.data.error);
           });
+      });
+    },
+    logout({ commit }) {
+      return new Promise((resolve, reject) => {
+        commit("logout");
+        resolve();
       });
     }
   },

@@ -4,12 +4,10 @@ import VueCookies from "vue-cookies";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import i18n from "./translation";
+import i18n from "@/translation";
 import "./registerServiceWorker";
 
 Vue.config.productionTip = false;
-
-Vue.use(Vuelidate);
 
 declare global {
   interface Window {
@@ -17,6 +15,7 @@ declare global {
   }
 }
 
+Vue.use(Vuelidate);
 Vue.use(VueCookies);
 
 new Vue({

@@ -9,8 +9,7 @@ axios.defaults.withCredentials = true;
 export default new Vuex.Store({
   state: {
     accessToken: window.$cookies.get("access_token") || "",
-    currentUser: {},
-    redirectUrl: "/"
+    currentUser: {}
   },
   mutations: {
     auth_success(state, payload) {
@@ -21,9 +20,6 @@ export default new Vuex.Store({
       state.accessToken = "";
       state.currentUser = {};
       window.$cookies.remove("access_token");
-    },
-    redirect_url(state, payload) {
-      state.redirectUrl = payload.redirectUrl;
     }
   },
   actions: {

@@ -4,7 +4,7 @@
       <label>email</label>
       <input v-model.trim="$v.email.$model" />
     </div>
-    <div v-if="!$v.email.required">Field is required</div>
+    <div v-if="!$v.email.required">{{ $t("form.validation.required") }}</div>
     <div v-if="!$v.email.email">
       invalid email
     </div>

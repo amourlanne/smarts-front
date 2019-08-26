@@ -37,9 +37,9 @@ const router = new Router({
       }
     },
     {
-      path: "/forgot-password",
-      name: "forgot-password",
-      component: () => import("./views/ForgotPassword.vue"),
+      path: "/password-reset",
+      name: "password-reset",
+      component: () => import("./views/PasswordReset.vue"),
       meta: {
         requiresAuth: false
       }
@@ -54,8 +54,7 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     }
-    store.commit("redirect_url", { redirectUrl: to.path });
-    next({ name: "login" });
+    next({ name: "login", query: { redirect_url: to.path } });
   } else {
     next();
   }

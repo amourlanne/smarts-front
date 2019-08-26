@@ -1,3 +1,10 @@
 export default {
-  message: {}
+  auth: {
+    forgotPassword: "Mot de passe oublié ?"
+  },
+  form: {
+    validation: {
+      required: "Ce champ est obligatoire"
+    }
+  }
 };

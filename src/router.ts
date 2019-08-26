@@ -36,6 +36,14 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: "/forgot-password",
+      name: "forgot-password",
+      component: () => import("./views/ForgotPassword.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
     { path: "*", component: PageNotFound }
   ]
 });

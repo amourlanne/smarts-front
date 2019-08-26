@@ -3,10 +3,11 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import PageNotFound from "./views/PageNotFound.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
+import store from "@/store";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   routes: [
     {
@@ -38,3 +39,18 @@ export default new Router({
     { path: "*", component: PageNotFound }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (!(to.meta.requiresAuth === false)) {
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    store.commit("redirect_url", { redirectUrl: to.path });
+    next({ name: "login" });
+  } else {
+    next();
+  }
+});
+
+export default router;

@@ -4,6 +4,7 @@ import VueCookies from "vue-cookies";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import i18n from "./translation";
 import "./registerServiceWorker";
 
 Vue.config.productionTip = false;
@@ -18,21 +19,9 @@ declare global {
 
 Vue.use(VueCookies);
 
-router.beforeEach((to, from, next) => {
-  if (!(to.meta.requiresAuth === false)) {
-    if (store.getters.isLoggedIn) {
-      next();
-      return;
-    }
-    store.commit("redirect_url", { redirectUrl: to.path });
-    next({ name: "login" });
-  } else {
-    next();
-  }
-});
-
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount("#app");

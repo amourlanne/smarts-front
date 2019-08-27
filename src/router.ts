@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import PageNotFound from "./views/PageNotFound.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import store from "@/store";
+import i18n from "./translation";
 
 Vue.use(Router);
 
@@ -11,7 +12,7 @@ const router = new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "/:lang",
       name: "home",
       component: Home,
       children: [
@@ -26,7 +27,16 @@ const router = new Router({
           component: () =>
             import(/* webpackChunkName: "about" */ "./views/About.vue")
         }
-      ]
+      ],
+      beforeEnter(to, from, next) {
+        const lang = to.params.lang;
+        if (!["en", "fr"].includes(lang)) return next("en");
+
+        if (i18n.locale !== lang) {
+          i18n.locale = lang;
+        }
+        return next();
+      }
     },
     {
       path: "/login",

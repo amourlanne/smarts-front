@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <locale-changer />
     <router-view />
   </div>
 </template>
@@ -11,9 +10,7 @@ import LocaleChanger from "@/components/LocaleChanger.vue";
 
 export default Vue.extend({
   name: "app",
-  components: {
-    LocaleChanger
-  }
+  components: {}
 });
 </script>
 
@@ -24,5 +21,15 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+form {
+  .form-error {
+    display: none;
+  }
+  .form-group-error {
+    + .form-error {
+      display: block;
+    }
+  }
 }
 </style>

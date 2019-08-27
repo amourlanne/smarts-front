@@ -1,10 +1,10 @@
 <template>
-  <div>Page Not Found</div>
+  <div class="page-not-found">Page Not Found</div>
 </template>
 
 <script>
 export default {
-  name: "pageNotFound",
+  name: "page-not-found",
   data() {
     return {};
   },

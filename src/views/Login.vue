@@ -1,22 +1,23 @@
 <template>
-  <div>
+  <div class="login">
+    <locale-changer />
     <form @submit.prevent="submit">
-      <div :class="{ 'form-group--error': $v.username.$error }">
+      <div :class="{ 'form-group-error': $v.username.$error }">
         <label>username</label>
         <input v-model.trim="$v.username.$model" />
       </div>
-      <div v-if="!$v.username.required">
+      <div class="form-error" v-if="!$v.username.required">
         {{ $t("form.validation.required") }}
       </div>
-      <div v-if="!$v.username.minLength">
+      <div class="form-error" v-if="!$v.username.minLength">
         username must have at least
         {{ $v.username.$params.minLength.min }} letters.
       </div>
-      <div>
+      <div :class="{ 'form-group-error': $v.password.$error }">
         <label>Password</label>
-        <input v-model.trim.lazy="$v.password.$model" />
+        <input v-model.trim="$v.password.$model" />
       </div>
-      <div v-if="!$v.password.required">
+      <div class="form-error" v-if="!$v.password.required">
         {{ $t("form.validation.required") }}
       </div>
       <button
@@ -39,9 +40,13 @@
 
 <script>
 import { minLength, required } from "vuelidate/lib/validators";
+import LocaleChanger from "../components/LocaleChanger";
 
 export default {
   name: "login",
+  components: {
+    LocaleChanger
+  },
   data() {
     return {
       username: "",

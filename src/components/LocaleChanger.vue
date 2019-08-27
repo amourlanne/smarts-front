@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { defaultLocale } from "@/config/i18n";
 
 export default Vue.extend({
   name: "locale-changer",
@@ -24,7 +25,14 @@ export default Vue.extend({
   methods: {
     onChange() {
       const locale = this.$i18n.locale;
-      this.$cookies.set("lang", locale);
+      // @ts-ignore
+      this.$router.push({
+        name: this.$route.name,
+        params: {
+          ...this.$route.params,
+          lang: locale == defaultLocale ? undefined : locale
+        }
+      });
     }
   }
 });

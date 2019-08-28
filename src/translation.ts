@@ -7,13 +7,11 @@ import { defaultLocale } from "@/config/i18n";
 
 Vue.use(VueI18n);
 
-const messages = {
-  fr: frMessages,
-  en: enMessages
-};
-
 export default new VueI18n({
   locale: defaultLocale,
   fallbackLocale: defaultLocale,
-  messages
+  messages: {
+    fr: frMessages,
+    en: enMessages
+  }
 });

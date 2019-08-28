@@ -30,7 +30,7 @@ export default Vue.extend({
         name: this.$route.name,
         params: {
           ...this.$route.params,
-          lang: locale == defaultLocale ? undefined : locale
+          locale: locale == defaultLocale ? undefined : locale
         }
       });
     }

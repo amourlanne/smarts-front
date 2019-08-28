@@ -1,6 +1,5 @@
 <template>
   <div class="password-reset">
-    <locale-changer />
     <form @submit.prevent="submit">
       <div :class="{ 'form-group-error': $v.email.$error }">
         <label>email</label>
@@ -33,9 +32,7 @@ import LocaleChanger from "../components/LocaleChanger";
 
 export default {
   name: "password-reset",
-  components: {
-    LocaleChanger
-  },
+  components: {},
   data() {
     return {
       email: "",

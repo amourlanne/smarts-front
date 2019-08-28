@@ -5,14 +5,71 @@ import PageNotFound from "./views/PageNotFound.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import store from "@/store";
 import i18n from "./translation";
-import App from "@/App.vue";
-import Lang from "@/views/Lang.vue";
 import { defaultLocale, locales } from "@/config/i18n";
 import RouterView from "@/components/RouterView.vue";
+import Lang from "@/views/Locale.vue";
 
 Vue.use(Router);
 
 const router = new Router({
+  mode: "history",
+  routes: [
+    {
+      path: "/:locale(fr|ja|en)?",
+      component: Lang,
+      beforeEnter(to, from, next) {
+        const localeParam = to.params.locale;
+
+        if (
+          locales.find(locale => locale.code === localeParam) &&
+          i18n.locale !== localeParam
+        ) {
+          i18n.locale = localeParam;
+        }
+        return next();
+      },
+      children: [
+        {
+          path: "/",
+          component: Home,
+          name: "home",
+          children: [
+            {
+              path: "",
+              component: HelloWorld,
+              props: { msg: "Welcome to Your Vue.js + TypeScript App" }
+            },
+            {
+              path: "about",
+              name: "about",
+              component: () => import("./views/About.vue")
+            }
+          ]
+        },
+        {
+          path: "login",
+          name: "login",
+          component: () => import("./views/Login.vue"),
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          path: "password-reset",
+          name: "password-reset",
+          component: () => import("./views/PasswordReset.vue"),
+          meta: {
+            requiresAuth: false
+          }
+        },
+        { path: "*", component: PageNotFound }
+      ]
+    },
+    { path: "*", component: PageNotFound }
+  ]
+});
+
+/*const router = new Router({
   mode: "history",
   routes: [
     {
@@ -80,7 +137,7 @@ const router = new Router({
   ]
 });
 
-/*router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   if (!(to.meta.requiresAuth === false)) {
     if (store.getters.isLoggedIn) {
       next();
@@ -90,7 +147,7 @@ const router = new Router({
   } else {
     next();
   }
-});*/
+});
 
 router.beforeEach((to, from, next) => {
   const lang = to.params.lang;
@@ -106,6 +163,23 @@ router.beforeEach((to, from, next) => {
   }
   console.log("Locale is:", i18n.locale);
   return next();
+});*/
+
+router.beforeEach((to, from, next) => {
+  if (!(to.meta.requiresAuth === false)) {
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    console.log("from", from);
+    next({
+      name: "login",
+      params: from.params,
+      query: { redirectUrl: to.path }
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

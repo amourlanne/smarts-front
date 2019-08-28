@@ -1,6 +1,5 @@
 <template>
   <div class="login">
-    <locale-changer />
     <form @submit.prevent="submit">
       <div :class="{ 'form-group-error': $v.username.$error }">
         <label>username</label>
@@ -44,9 +43,7 @@ import LocaleChanger from "../components/LocaleChanger";
 
 export default {
   name: "login",
-  components: {
-    LocaleChanger
-  },
+  components: {},
   data() {
     return {
       username: "",
@@ -73,7 +70,10 @@ export default {
         let username = this.username;
         let password = this.password;
 
-        const redirectUrl = this.$route.query.redirectUrl || "/";
+        const redirectUrl = this.$route.query.redirectUrl || {
+          name: "home",
+          params: this.$route.params
+        };
 
         this.$store
           .dispatch("login", { username, password })

@@ -8,6 +8,7 @@ import i18n from "./translation";
 import App from "@/App.vue";
 import Lang from "@/views/Lang.vue";
 import { defaultLocale, locales } from "@/config/i18n";
+import RouterView from "@/components/RouterView.vue";
 
 Vue.use(Router);
 
@@ -16,45 +17,64 @@ const router = new Router({
   routes: [
     {
       path: "/:lang?",
-      component: Lang,
+      component: RouterView,
       children: [
         {
-          path: "about",
-          name: "about",
-          component: () => import("./views/About.vue")
-        },
-        {
-          path: "login",
-          name: "login",
-          component: () => import("./views/Login.vue"),
-          meta: {
-            requiresAuth: false
-          }
-        },
-        {
-          path: "password-reset",
-          name: "password-reset",
-          component: () => import("./views/PasswordReset.vue"),
-          meta: {
-            requiresAuth: false
-          }
-        },
-        {
-          path: "",
-          component: HelloWorld,
-          props: { msg: "Welcome to Your Vue.js + TypeScript App" },
+          path: "/",
+          component: RouterView,
           beforeEnter(to, from, next) {
-            if (
-              to.params.lang &&
-              !locales.find(locale => locale.code === to.params.lang)
-            ) {
-              console.log(to.params);
-              return next({ name: "page-not-found", params: to.params });
-            }
+            console.log(to.params.lang);
             return next();
-          }
+          },
+          children: [
+            {
+              path: "login",
+              name: "login",
+              component: () => import("./views/Login.vue"),
+              meta: {
+                requiresAuth: false
+              }
+            },
+            {
+              path: "password-reset",
+              name: "password-reset",
+              component: () => import("./views/PasswordReset.vue"),
+              meta: {
+                requiresAuth: false
+              }
+            },
+            {
+              path: "/",
+              component: Home,
+              name: "home",
+              children: [
+                {
+                  path: "about",
+                  name: "about",
+                  component: () => import("./views/About.vue")
+                },
+                {
+                  path: "",
+                  component: HelloWorld,
+                  name: "home",
+                  props: { msg: "Welcome to Your Vue.js + TypeScript App" }
+                  // beforeEnter(to, from, next) {
+                  //   if (
+                  //     to.params.lang &&
+                  //     !locales.find(locale => locale.code === to.params.lang)
+                  //   ) {
+                  //     console.log(to.params);
+                  //     return next({ name: "page-not-found", params: to.params });
+                  //   }
+                  //   return next();
+                  // }
+                }
+              ]
+            },
+            { path: "*", component: PageNotFound }
+          ]
         },
-        { name: "page-not-found", path: "*", component: PageNotFound }
+        { path: "*", component: PageNotFound }
       ]
     }
   ]
@@ -78,6 +98,8 @@ router.beforeEach((to, from, next) => {
   if (locales.find(locale => locale.code === lang) && i18n.locale !== lang) {
     i18n.locale = lang;
   }
+  console.log("lang", lang, "defaultLocale", defaultLocale);
+  console.log(to);
   if (lang === defaultLocale) {
     // @ts-ignore
     next({ name: to.name, params: { ...to.params, lang: undefined } });

@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
+      <router-link to="home">Home</router-link> |
+      <router-link to="about">About</router-link> |
       <a v-on:click="logout">Logout</a>
     </div>
     <img alt="Vue logo" src="../assets/logo.png" />

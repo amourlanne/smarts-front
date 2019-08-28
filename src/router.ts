@@ -32,11 +32,11 @@ const router = new Router({
         {
           path: "/",
           component: Home,
-          name: "home",
           children: [
             {
               path: "",
               component: HelloWorld,
+              name: "home",
               props: { msg: "Welcome to Your Vue.js + TypeScript App" }
             },
             {

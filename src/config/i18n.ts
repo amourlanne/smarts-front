@@ -1,12 +1,11 @@
-export const defaultLocale = "en";
+import frMessages from "@/translations/messages.fr";
+import enMessages from "@/translations/messages.en";
 
-export const locales = [
-  {
-    code: "en",
-    name: "English"
-  },
-  {
-    code: "fr",
-    name: "Français"
+export default {
+  locale: "en",
+  fallbackLocale: "en",
+  messages: {
+    fr: frMessages,
+    en: enMessages
   }
-];
+};

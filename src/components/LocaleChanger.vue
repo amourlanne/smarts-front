@@ -1,36 +1,36 @@
 <template>
   <div class="locale-changer">
     <select v-model="$i18n.locale" @change="onChange">
-      <option v-for="(value, key) in langs" :key="key" :value="key">{{
-        value
-      }}</option>
+      <option
+        v-for="locale in locales"
+        :key="locale.code"
+        :value="locale.code"
+        >{{ locale.name }}</option
+      >
     </select>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { defaultLocale } from "@/config/i18n";
 
 export default Vue.extend({
   name: "locale-changer",
   data() {
     return {
-      langs: {
-        fr: "Français",
-        en: "English"
-      }
+      locales: this.$i18n.locales
     };
   },
   methods: {
     onChange() {
       const locale = this.$i18n.locale;
+      console.log(this.$i18n);
       // @ts-ignore
       this.$router.push({
         name: this.$route.name,
         params: {
           ...this.$route.params,
-          locale: locale == defaultLocale ? undefined : locale
+          locale: locale == defaultLocale.code ? undefined : locale
         }
       });
     }

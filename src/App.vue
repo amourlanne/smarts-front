@@ -15,8 +15,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+// Google Fonts
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600&display=swap");
+
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

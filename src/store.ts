@@ -4,8 +4,6 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
-axios.defaults.withCredentials = true;
-
 export default new Vuex.Store({
   state: {
     accessToken: window.$cookies.get("access_token") || "",

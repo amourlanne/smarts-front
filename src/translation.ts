@@ -1,14 +1,13 @@
 import Vue from "vue";
-import { defaultLocale } from "@/config/i18n";
 import VueI18n from "vue-i18n";
-import frMessages from "@/translations/messages.fr";
-import enMessages from "@/translations/messages.en";
+import frMessages from "@/translations/messages.fr.json";
+import enMessages from "@/translations/messages.en.json";
 
 Vue.use(VueI18n);
 
 export default new VueI18n({
-  locale: defaultLocale,
-  fallbackLocale: defaultLocale,
+  locale: process.env.VUE_APP_LOCALE,
+  fallbackLocale: process.env.VUE_APP_LOCALE,
   messages: {
     fr: frMessages,
     en: enMessages

@@ -13,8 +13,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import locales from "@/locales";
-import { defaultLocale } from "@/config/i18n";
+import locales from "@/locales.json";
 
 export default Vue.extend({
   name: "locale-changer",
@@ -32,7 +31,7 @@ export default Vue.extend({
         query: this.$route.query,
         params: {
           ...this.$route.params,
-          locale: locale == defaultLocale ? undefined : locale
+          locale: locale == process.env.VUE_APP_LOCALE ? undefined : locale
         }
       };
       // @ts-ignore

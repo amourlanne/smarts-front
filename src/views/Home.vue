@@ -3,6 +3,7 @@
     <div id="nav">
       <router-link to="./">Home</router-link> |
       <router-link to="about">About</router-link> |
+      <router-link to="users">Users</router-link> |
       <a v-on:click="logout">Logout</a>
     </div>
     <img alt="Vue logo" src="../assets/logo.png" />
@@ -18,7 +19,10 @@ export default Vue.extend({
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
-        this.$router.push({ name: "login" });
+        this.$router.push({
+          name: "login",
+          params: { locale: this.$i18n.locale }
+        });
       });
     }
   }

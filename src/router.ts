@@ -3,8 +3,7 @@ import Router from "vue-router";
 import store from "@/store";
 import i18n from "./translation";
 import Lang from "@/views/Locale.vue";
-import locales from "@/locales";
-import { defaultLocale } from "@/config/i18n";
+import locales from "@/locales.json";
 import routes from "@/routes";
 
 Vue.use(Router);
@@ -26,9 +25,7 @@ const router = new Router({
           i18n.locale = localeParam;
         }
 
-        console.log(localeParam);
-
-        if (defaultLocale === localeParam) {
+        if (process.env.VUE_APP_LOCALE === localeParam) {
           // @ts-ignore
           return next({
             name: to.name,
@@ -54,7 +51,7 @@ router.beforeEach((to, from, next) => {
     }
     next({
       name: "login",
-      params: from.params,
+      params: to.params,
       query: { redirectUrl: to.fullPath }
     });
   } else {

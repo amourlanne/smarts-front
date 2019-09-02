@@ -18,6 +18,11 @@ export default [
         path: "about",
         name: "about",
         component: () => import("./views/About.vue")
+      },
+      {
+        path: "users",
+        name: "users",
+        component: () => import("./views/Users.vue")
       }
     ]
   },

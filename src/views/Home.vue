@@ -1,12 +1,10 @@
 <template>
-  <div class="home">
+  <div>
     <Helmet>
       <title>Home</title>
     </Helmet>
+    <home-header></home-header>
     <div id="nav">
-      <router-link to="./">Home</router-link> |
-      <router-link to="about">About</router-link> |
-      <router-link to="users">Users</router-link> |
       <a v-on:click="logout">Logout</a>
     </div>
     <img alt="Vue logo" src="../assets/logo.png" />
@@ -18,10 +16,11 @@
 import Vue from "vue";
 // @ts-ignore
 import { Helmet } from "@jnields/vue-helmet";
+import HomeHeader from "@/components/HomeHeader.vue";
 
 export default Vue.extend({
   name: "home",
-  components: { Helmet },
+  components: { Helmet, HomeHeader },
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
@@ -42,10 +41,6 @@ export default Vue.extend({
   a {
     font-weight: bold;
     color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
   }
 }
 </style>

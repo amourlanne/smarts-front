@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div>
     <form @submit.prevent="submit">
       <div :class="{ 'form-group-error': $v.username.$error }">
         <label>username</label>

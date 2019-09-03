@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <Helmet>
+      <title>Home</title>
+    </Helmet>
     <div id="nav">
       <router-link to="./">Home</router-link> |
       <router-link to="about">About</router-link> |
@@ -13,9 +16,12 @@
 
 <script lang="ts">
 import Vue from "vue";
+// @ts-ignore
+import { Helmet } from "@jnields/vue-helmet";
 
 export default Vue.extend({
   name: "home",
+  components: { Helmet },
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {

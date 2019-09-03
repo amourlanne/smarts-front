@@ -1,19 +1,25 @@
 <template>
-  <section title="users">
+  <div>
+    <Helmet>
+      <title>Users</title>
+    </Helmet>
     <ul>
       <li :key="user.id" v-for="user in users">
         {{ user.firstName }} {{ user.lastName }}
       </li>
     </ul>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import userService from "@/services/user.service";
+// @ts-ignore
+import { Helmet } from "@jnields/vue-helmet";
 
 export default Vue.extend({
   name: "users",
+  components: { Helmet },
   data() {
     return {
       users: []

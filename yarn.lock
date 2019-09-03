@@ -711,6 +711,14 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@jnields/vue-helmet@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@jnields/vue-helmet/-/vue-helmet-3.0.0.tgz#3ea3c913981ae56c91a9c755003778d0ac47cd1a"
+  integrity sha512-vFaUMnUnLjH5VjzFFrU2ADF2/GiRB0LbK3SRqh7pP0g4EZWjoTa7haLdRqeOOOkicZoVRlZJQ97tWH7NEpRd1A==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    escape-html "^1.0.3"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -3765,7 +3773,7 @@ es-to-primitive@^1.2.0:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-escape-html@~1.0.3:
+escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=

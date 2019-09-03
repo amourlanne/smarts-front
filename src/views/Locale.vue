@@ -1,8 +1,8 @@
 <template>
-  <section title="lang">
+  <div>
     <locale-changer />
     <router-view />
-  </section>
+  </div>
 </template>
 
 <script lang="ts">

@@ -35,7 +35,7 @@ export default Vue.extend({
         }
       };
       // @ts-ignore
-      this.$router.push(routeOptions);
+      this.$router.replace(routeOptions);
     }
   }
 });

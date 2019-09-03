@@ -18,29 +18,6 @@ const LocaleRouter = (routes: any) => {
         path: `/:locale(${locales.map(e => e.code).join("|")})?`,
         component: Lang,
         name: "lang",
-        beforeEnter(to, from, next) {
-          const localeParam = to.params.locale;
-
-          if (
-            locales.find(locale => locale.code === localeParam) &&
-            i18n.locale !== localeParam
-          ) {
-            i18n.locale = localeParam;
-          }
-
-          if (process.env.VUE_APP_LOCALE === localeParam) {
-            // @ts-ignore
-            return next({
-              name: to.name,
-              query: to.query,
-              params: {
-                ...to.params,
-                locale: undefined
-              }
-            });
-          }
-          return next();
-        },
         children: routes
       }
     ]
@@ -51,12 +28,13 @@ const router = LocaleRouter([
   {
     path: "/",
     component: Home,
-    name: "home",
+    // name: "home",
     children: [
       {
         path: "",
         component: HelloWorld,
-        name: "helloWord",
+        // name: "helloWord",
+        name: "home",
         props: { msg: "Welcome to Your Vue.js + TypeScript App" }
       },
       {
@@ -91,19 +69,39 @@ const router = LocaleRouter([
 ]);
 
 router.beforeEach((to, from, next) => {
-  if (!(to.meta.requiresAuth === false)) {
-    if (store.getters.isLoggedIn) {
-      next();
-      return;
-    }
-    next({
+  const localeParam = to.params.locale;
+
+  if (
+    locales.find(locale => locale.code === localeParam) &&
+    i18n.locale !== localeParam
+  ) {
+    i18n.locale = localeParam;
+  }
+
+  if (process.env.VUE_APP_LOCALE === localeParam) {
+    // @ts-ignore
+    return next({
+      name: to.name,
+      query: to.query,
+      params: {
+        ...to.params,
+        locale: undefined
+      },
+      replace: true
+    });
+  }
+
+  if (!(to.meta.requiresAuth === false) && !store.getters.isLoggedIn) {
+    return next({
       name: "login",
       params: to.params,
-      query: { redirectUrl: to.fullPath }
+      query: { redirectUrl: to.fullPath },
+      replace: true // TODO: Le replace est-il vraiment approprié ?
     });
-  } else {
-    next();
+  } else if (store.getters.isLoggedIn && to.meta.requiresAuth === false) {
+    return next(); // TODO: Deconnecter ou rediriger
   }
+  return next();
 });
 
 export default router;

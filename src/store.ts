@@ -24,7 +24,7 @@ export default new Vuex.Store({
     login({ commit }, user) {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:3000/api/login", user)
+          .post("/login", user)
           .then(response => {
             commit("auth_success", { currentUser: response.data });
             resolve(response);

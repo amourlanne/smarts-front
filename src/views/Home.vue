@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <Helmet>
       <title>Home</title>
     </Helmet>
@@ -35,6 +35,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.app {
+  text-align: center;
+}
 #nav {
   padding: 30px;
 

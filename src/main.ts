@@ -6,8 +6,6 @@ import router from "./router";
 import store from "./store";
 import i18n from "@/translation";
 import axios from "axios";
-// @ts-ignore
-import VTooltip from "v-tooltip";
 
 import "./registerServiceWorker";
 
@@ -35,7 +33,6 @@ axios.interceptors.response.use(
 
 Vue.use(Vuelidate);
 Vue.use(VueCookies);
-Vue.use(VTooltip);
 
 new Vue({
   router,

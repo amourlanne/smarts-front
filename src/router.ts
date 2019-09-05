@@ -5,7 +5,7 @@ import i18n from "./translation";
 import Lang from "@/views/Locale.vue";
 import locales from "@/locales.json";
 import PageNotFound from "@/views/PageNotFound.vue";
-import Home from "@/views/Home.vue";
+import Home from "@/views/home/Home.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 
 Vue.use(Router);
@@ -40,12 +40,12 @@ const router = LocaleRouter([
       {
         path: "about",
         name: "about",
-        component: () => import("./views/About.vue")
+        component: () => import("./views/home/About.vue")
       },
       {
         path: "users",
         name: "users",
-        component: () => import("./views/Users.vue")
+        component: () => import("./views/home/Users.vue")
       }
     ]
   },

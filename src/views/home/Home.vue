@@ -7,7 +7,7 @@
     <div id="nav">
       <a v-on:click="logout">Logout</a>
     </div>
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="Vue logo" src="../../assets/logo.png" />
     <router-view />
   </div>
 </template>

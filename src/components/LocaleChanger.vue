@@ -40,9 +40,9 @@ export default Vue.extend({
     };
   },
   mounted() {
-    // this.localeData = <any>this.locales.find(
-    //   locale => locale.code === this.$i18n.locale
-    // );
+    this.localeData = <any>this.locales.find(
+      locale => locale.code === this.$i18n.locale
+    );
   },
   methods: {
     localeSelect(locale: any) {

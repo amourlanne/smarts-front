@@ -1,13 +1,29 @@
 <template>
-  <div class="locale-changer">
-    <select v-model="$i18n.locale" @change="onChange">
-      <option
+  <div class="locale-changer dropdown">
+    <a
+      class="nav-link dropdown-toggle"
+      href="#"
+      id="localChanger"
+      role="button"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      {{ localeData.name }}
+    </a>
+    <div
+      class="dropdown-menu dropdown-menu-right"
+      aria-labelledby="localChanger"
+    >
+      <a
         v-for="locale in locales"
+        v-if="locale !== localeData"
         :key="locale.code"
-        :value="locale.code"
-        >{{ locale.name }}</option
+        v-on:click="localeSelect(locale)"
+        class="dropdown-item"
+        >{{ locale.name }}</a
       >
-    </select>
+    </div>
   </div>
 </template>
 
@@ -19,19 +35,26 @@ export default Vue.extend({
   name: "locale-changer",
   data() {
     return {
-      locales: locales
+      locales: locales,
+      localeData: { name: null, code: null }
     };
   },
+  mounted() {
+    // this.localeData = <any>this.locales.find(
+    //   locale => locale.code === this.$i18n.locale
+    // );
+  },
   methods: {
-    onChange() {
-      const locale = this.$i18n.locale;
+    localeSelect(locale: any) {
+      this.localeData = locale;
+      this.$i18n.locale = locale.code;
 
       const routeOptions = {
         name: this.$route.name,
         query: this.$route.query,
         params: {
           ...this.$route.params,
-          locale: locale == process.env.VUE_APP_LOCALE ? undefined : locale
+          locale: locale == process.env.VUE_APP_LOCALE ? undefined : locale.code
         }
       };
       // @ts-ignore

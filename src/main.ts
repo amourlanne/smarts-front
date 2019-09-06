@@ -6,8 +6,9 @@ import router from "./router";
 import store from "./store";
 import i18n from "@/translation";
 import axios from "axios";
+import "bootstrap";
 
-import "./registerServiceWorker";
+import "./main.scss";
 
 Vue.config.productionTip = false;
 

@@ -89,7 +89,7 @@ export default Vue.extend({
       // @ts-ignore
       this.users = await projectService.getUsers(slug);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 });

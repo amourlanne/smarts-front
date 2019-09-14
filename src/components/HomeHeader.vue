@@ -129,7 +129,7 @@ export default Vue.extend({
       try {
         this.projects = await projectService.getAll();
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   },

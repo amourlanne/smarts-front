@@ -37,7 +37,7 @@ export default Vue.extend({
       // @ts-ignore
       this.user = await userService.getUserByUsername(username);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 });

@@ -104,7 +104,7 @@ export default Vue.extend({
       try {
         this.project = await projectService.getBySlug(slug);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   },

@@ -100,7 +100,6 @@ export default {
         this.submitStatus = "PENDING";
 
         let email = this.email;
-        console.log(email);
       }
     }
   }

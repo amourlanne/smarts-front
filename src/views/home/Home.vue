@@ -23,7 +23,7 @@ export default Vue.extend({
         const user = await userService.getMe();
         this.$store.commit("set_currentUser", { currentUser: user });
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   }

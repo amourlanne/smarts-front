@@ -43,7 +43,7 @@ export default Vue.extend({
       // @ts-ignore
       this.projects = await projectService.getAll();
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 });

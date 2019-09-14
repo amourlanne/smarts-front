@@ -94,7 +94,7 @@ export default Vue.extend({
       // @ts-ignore
       this.users = await userService.getUsers();
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 });

@@ -1,32 +1,81 @@
 <template>
   <header class="app-header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
-        <img
-          src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
-          width="30"
-          height="30"
-          class="d-inline-block align-top"
-          alt=""
-        />
-        Smarts
-      </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <div class="dropdown show">
+        <a
+          class="navbar-brand"
+          href="#"
+          role="button"
+          id="dropdownMenuLink"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img
+            src="../assets/logo.png"
+            width="30"
+            height="30"
+            class="d-inline-block align-top"
+            alt=""
+          />
+          Smarts
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <h6 class="dropdown-header">Dotsafe</h6>
+          <router-link class="dropdown-item" :to="{ name: 'users' }"
+            >People and teams</router-link
+          >
+          <a class="dropdown-item" v-on:click="logout">Logout</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" v-if="currentUser">
+            <div>{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
+            <div>{{ currentUser.email }}</div>
+          </a>
+        </div>
+      </div>
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <router-link to="./" class="nav-link">
+            <router-link :to="{ name: 'home' }" class="nav-link">
               Home
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="about" class="nav-link">
-              About
-            </router-link>
+          <li class="nav-item dropdown" id="dropdownProjects">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Projects
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <router-link class="dropdown-item" :to="{ name: 'projects' }"
+                >Your projects</router-link
+              >
+              <div class="dropdown-divider"></div>
+              <h6 class="dropdown-header">All projects</h6>
+              <router-link
+                :key="project.id"
+                v-for="project in projects"
+                class="dropdown-item"
+                :to="{
+                  name: 'project-dashboard',
+                  params: { slug: project.slug }
+                }"
+              >
+                {{ project.name }}</router-link
+              >
+            </div>
           </li>
           <li class="nav-item">
-            <router-link to="users" class="nav-link">
-              Users
+            <router-link :to="{ name: 'about' }" class="nav-link">
+              About
             </router-link>
           </li>
         </ul>
@@ -46,9 +95,6 @@
           <li class="nav-item">
             <locale-changer></locale-changer>
           </li>
-          <li class="nav-item">
-            <a v-on:click="logout" class="nav-link">Logout</a>
-          </li>
         </ul>
       </div>
     </nav>
@@ -57,23 +103,38 @@
 
 <script lang="ts">
 import Vue from "vue";
-import LocaleChanger from "./LocaleChanger";
+import LocaleChanger from "./LocaleChanger.vue";
+import projectService from "../services/project.service";
+import $ from "jquery";
+import { mapState } from "vuex";
 
 export default Vue.extend({
   name: "home-header",
   components: { LocaleChanger },
+  computed: mapState(["currentUser"]),
   data() {
-    return {};
+    return {
+      projects: []
+    };
   },
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push({
-          name: "login",
-          params: { locale: this.$i18n.locale }
+          name: "login"
         });
       });
+    },
+    async getAll() {
+      try {
+        this.projects = await projectService.getAll();
+      } catch (e) {
+        console.log(e);
+      }
     }
+  },
+  async mounted() {
+    $("#dropdownProjects").on("show.bs.dropdown", () => this.getAll());
   }
 });
 </script>

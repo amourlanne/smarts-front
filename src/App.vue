@@ -1,7 +1,7 @@
 <template>
   <helmet-provider>
     <div>
-      <helmet defaultTitle="Vue.js" titleTemplate="Vue.js | %s">
+      <helmet defaultTitle="Smarts" titleTemplate="Smarts | %s">
         <html :lang="this.$i18n.locale"></html>
       </helmet>
       <router-view></router-view>

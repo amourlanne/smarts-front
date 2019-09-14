@@ -1,10 +1,10 @@
 import Vue from "vue";
-import Router, { RouterOptions } from "vue-router";
+import Router from "vue-router";
 import store from "@/store";
 import i18n from "./translation";
-import Lang from "@/views/Locale.vue";
+import Locale from "@/views/Locale.vue";
 import locales from "@/locales.json";
-import PageNotFound from "@/views/PageNotFound.vue";
+import PageNotFound from "@/views/home/PageNotFound.vue";
 import Home from "@/views/home/Home.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 
@@ -16,8 +16,8 @@ const LocaleRouter = (routes: any) => {
     routes: [
       {
         path: `/:locale(${locales.map(e => e.code).join("|")})?`,
-        component: Lang,
-        name: "lang",
+        component: Locale,
+        // name: "locale",
         children: routes
       }
     ]
@@ -28,12 +28,10 @@ const router = LocaleRouter([
   {
     path: "/",
     component: Home,
-    // name: "home",
     children: [
       {
         path: "",
         component: HelloWorld,
-        // name: "helloWord",
         name: "home",
         props: { msg: "Welcome to Your Vue.js + TypeScript App" }
       },
@@ -45,7 +43,33 @@ const router = LocaleRouter([
       {
         path: "users",
         name: "users",
-        component: () => import("./views/home/Users.vue")
+        component: () => import("./views/home/user/Users.vue")
+      },
+      {
+        path: "user/:username",
+        name: "user",
+        component: () => import("./views/home/user/User.vue")
+      },
+      {
+        path: "projects",
+        name: "projects",
+        component: () => import("./views/home/project/Projects.vue")
+      },
+      {
+        path: "project/:slug",
+        component: () => import("./views/home/project/Project.vue"),
+        children: [
+          {
+            path: "",
+            name: "project-dashboard",
+            component: () => import("./views/home/project/ProjectDashboard.vue")
+          },
+          {
+            path: "users",
+            name: "project-users",
+            component: () => import("./views/home/project/ProjectUsers.vue")
+          }
+        ]
       }
     ]
   },
@@ -59,16 +83,32 @@ const router = LocaleRouter([
   },
   {
     path: "password-reset",
-    name: "passwordReset",
+    name: "password-reset",
     component: () => import("./views/PasswordReset.vue"),
     meta: {
       requiresAuth: false
     }
   },
-  { path: "*", name: "pageNotFound", component: PageNotFound }
+  { path: "*", name: "page-not-found", component: PageNotFound }
 ]);
 
 router.beforeEach((to, from, next) => {
+  if (
+    from.name &&
+    to.params.locale === undefined &&
+    i18n.locale !== process.env.VUE_APP_LOCALE
+  ) {
+    return next({
+      name: to.name,
+      query: to.query,
+      params: {
+        ...to.params,
+        locale: from.params.locale
+      },
+      replace: true
+    });
+  }
+
   const localeParam = to.params.locale;
 
   if (
@@ -95,7 +135,7 @@ router.beforeEach((to, from, next) => {
     return next({
       name: "login",
       params: to.params,
-      query: { redirectUrl: to.fullPath },
+      query: { redirect_url: to.fullPath },
       replace: true // TODO: Le replace est-il vraiment approprié ?
     });
   } else if (store.getters.isLoggedIn && to.meta.requiresAuth === false) {
@@ -103,5 +143,7 @@ router.beforeEach((to, from, next) => {
   }
   return next();
 });
+
+// si je viens d'une aure route: = router link donc on garde /lang, sinon directement dans l'url, je set la variable lang TODO: si je switch avec le locale changer
 
 export default router;

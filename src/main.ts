@@ -7,6 +7,7 @@ import store from "./store";
 import i18n from "@/translation";
 import axios from "axios";
 import "bootstrap";
+import "@fortawesome/fontawesome-free/js/all";
 
 import "./main.scss";
 

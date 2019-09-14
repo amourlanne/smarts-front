@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     accessToken: window.$cookies.get("access_token") || "",
-    currentUser: {}
+    currentUser: null as Object | null
   },
   mutations: {
     auth_success(state, payload) {
@@ -16,8 +16,11 @@ export default new Vuex.Store({
     },
     logout(state, payload) {
       state.accessToken = "";
-      state.currentUser = {};
+      state.currentUser = null;
       window.$cookies.remove("access_token");
+    },
+    set_currentUser(state, payload) {
+      state.currentUser = payload.currentUser;
     }
   },
   actions: {

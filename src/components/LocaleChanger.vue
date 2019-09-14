@@ -1,7 +1,7 @@
 <template>
   <div class="locale-changer dropdown">
     <a
-      class="nav-link dropdown-toggle"
+      class="nav-link dropdown-toggle text-right"
       href="#"
       id="localChanger"
       role="button"
@@ -16,8 +16,7 @@
       aria-labelledby="localChanger"
     >
       <a
-        v-for="locale in locales"
-        v-if="locale !== localeData"
+        v-for="locale in locales.filter(data => data !== localeData)"
         :key="locale.code"
         v-on:click="localeSelect(locale)"
         class="dropdown-item"
@@ -36,11 +35,11 @@ export default Vue.extend({
   data() {
     return {
       locales: locales,
-      localeData: { name: null, code: null }
+      localeData: null as Object | undefined | null
     };
   },
   mounted() {
-    this.localeData = <any>this.locales.find(
+    this.localeData = this.locales.find(
       locale => locale.code === this.$i18n.locale
     );
   },
@@ -57,7 +56,6 @@ export default Vue.extend({
           locale: locale == process.env.VUE_APP_LOCALE ? undefined : locale.code
         }
       };
-      // @ts-ignore
       this.$router.replace(routeOptions);
     }
   }

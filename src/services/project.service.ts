@@ -1,22 +1,10 @@
 import axios from "axios";
 
 export default {
-  login(user: Object) {
+  getAll(): Promise<[]> {
     return new Promise((resolve, reject) => {
       axios
-        .post("/login", user)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response.data.error);
-        });
-    });
-  },
-  getUsers() {
-    return new Promise((resolve, reject) => {
-      axios
-        .get("/users")
+        .get("/projects")
         .then(response => {
           resolve(response.data);
         })
@@ -25,10 +13,10 @@ export default {
         });
     });
   },
-  getMe() {
+  getBySlug(slug: string): Promise<Object> {
     return new Promise((resolve, reject) => {
       axios
-        .get("/users/me")
+        .get(`/projects/${slug}`)
         .then(response => {
           resolve(response.data);
         })
@@ -37,10 +25,10 @@ export default {
         });
     });
   },
-  getUserByUsername(username: string) {
+  getUsers(slug: string): Promise<Object> {
     return new Promise((resolve, reject) => {
       axios
-        .get(`/users/${username}`)
+        .get(`/projects/${slug}/users`)
         .then(response => {
           resolve(response.data);
         })

@@ -25,6 +25,7 @@
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <h6 class="dropdown-header">{{ project.name }}</h6>
           <router-link
             :to="{ name: 'project-users', params: { slug: project.slug } }"
             class="dropdown-item"
@@ -57,19 +58,16 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Confluence</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="#">Redmine</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link disabled"
-              href="#"
-              tabindex="-1"
-              aria-disabled="true"
-              >Disabled</a
-            >
+            <a class="nav-link" href="#">Slack</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pass</a>
           </li>
         </ul>
       </div>

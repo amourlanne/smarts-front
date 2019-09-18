@@ -27,7 +27,7 @@
             >People and teams</router-link
           >
           <a class="dropdown-item" v-on:click="logout">Logout</a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider" v-if="currentUser"></div>
           <a class="dropdown-item" href="#" v-if="currentUser">
             <div>{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
             <div>{{ currentUser.email }}</div>

@@ -2,7 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
 import i18n from "./translation";
-import Locale from "@/views/Locale.vue";
 import locales from "@/locales.json";
 import PageNotFound from "@/views/home/PageNotFound.vue";
 import Home from "@/views/home/Home.vue";
@@ -16,7 +15,9 @@ const LocaleRouter = (routes: any) => {
     routes: [
       {
         path: `/:locale(${locales.map(e => e.code).join("|")})?`,
-        component: Locale,
+        component: {
+          render: c => c("router-view")
+        },
         // name: "locale",
         children: routes
       }
@@ -28,6 +29,9 @@ const router = LocaleRouter([
   {
     path: "/",
     component: Home,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: "",
@@ -76,18 +80,18 @@ const router = LocaleRouter([
   {
     path: "login",
     name: "login",
-    component: () => import("./views/Login.vue"),
-    meta: {
-      requiresAuth: false
-    }
+    component: () => import("./views/Login.vue")
+    // meta: {
+    //   requiresAuth: false
+    // }
   },
   {
     path: "password-reset",
     name: "password-reset",
-    component: () => import("./views/PasswordReset.vue"),
-    meta: {
-      requiresAuth: false
-    }
+    component: () => import("./views/PasswordReset.vue")
+    // meta: {
+    //   requiresAuth: false
+    // }
   },
   { path: "*", name: "page-not-found", component: PageNotFound }
 ]);
@@ -131,16 +135,21 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if (!(to.meta.requiresAuth === false) && !store.getters.isLoggedIn) {
+  // if (!(to.meta.requiresAuth === false) && !store.getters.isLoggedIn) {
+  if (
+    (to.meta.requiresAuth || to.matched.find(data => data.meta.requiresAuth)) &&
+    !store.getters.isLoggedIn
+  ) {
+    const redirectUrl = to.name === "home" ? undefined : to.fullPath;
     return next({
       name: "login",
       params: to.params,
-      query: { redirect_url: to.fullPath },
+      query: { redirect_url: redirectUrl },
       replace: true // TODO: Le replace est-il vraiment approprié ?
     });
-  } else if (store.getters.isLoggedIn && to.meta.requiresAuth === false) {
+  } /* else if (store.getters.isLoggedIn && to.meta.requiresAuth === false) {
     return next(); // TODO: Deconnecter ou rediriger
-  }
+  }*/
   return next();
 });
 

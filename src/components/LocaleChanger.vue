@@ -8,6 +8,7 @@
       data-toggle="dropdown"
       aria-haspopup="true"
       aria-expanded="false"
+      v-if="localeData"
     >
       {{ localeData.name }}
     </a>

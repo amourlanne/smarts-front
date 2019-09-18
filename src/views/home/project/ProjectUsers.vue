@@ -58,6 +58,7 @@
             </div>
           </div>
           <div class="list-group">
+            <span v-if="!users.length">No results.</span>
             <router-link
               v-for="user in users"
               :to="{ name: 'user', params: { username: user.username } }"

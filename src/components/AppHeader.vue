@@ -26,6 +26,9 @@
           <router-link class="dropdown-item" :to="{ name: 'users' }"
             >People and teams</router-link
           >
+          <router-link class="dropdown-item" :to="{ name: 'companies' }"
+            >Companies</router-link
+          >
           <a class="dropdown-item" v-on:click="logout">Logout</a>
           <div class="dropdown-divider" v-if="currentUser"></div>
           <a class="dropdown-item" href="#" v-if="currentUser">
@@ -62,7 +65,7 @@
               <h6 class="dropdown-header">All projects</h6>
               <router-link
                 :key="project.id"
-                v-for="project in projects"
+                v-for="project in companies"
                 class="dropdown-item"
                 :to="{
                   name: 'project-dashboard',
@@ -109,12 +112,12 @@ import $ from "jquery";
 import { mapState } from "vuex";
 
 export default Vue.extend({
-  name: "home-header",
+  name: "app-header",
   components: { LocaleChanger },
   computed: mapState(["currentUser"]),
   data() {
     return {
-      projects: []
+      companies: []
     };
   },
   methods: {
@@ -127,7 +130,7 @@ export default Vue.extend({
     },
     async getAll() {
       try {
-        this.projects = await projectService.getAll();
+        this.companies = await projectService.getAll();
       } catch (e) {
         // console.log(e);
       }

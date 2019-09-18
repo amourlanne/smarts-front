@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    redirectUrl: null,
     accessToken: window.$cookies.get("access_token") || "",
     currentUser: null as Object | null
   },
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     set_currentUser(state, payload) {
       state.currentUser = payload.currentUser;
+    },
+    set_redirect_url(state, payload) {
+      state.redirectUrl = payload.redirectUrl;
     }
   },
   actions: {

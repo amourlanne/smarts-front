@@ -24,7 +24,7 @@ axios.interceptors.response.use(
   config => config,
   error => {
     const response = error.response;
-    if (response.status == 401) {
+    if (response.status == 401 || response.status == 403) {
       window.$cookies.remove("access_token");
       router.push({ name: "login" });
       // TODO: set locale params

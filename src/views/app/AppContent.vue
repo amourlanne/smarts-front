@@ -1,20 +1,19 @@
 <template>
   <div class="app">
-    <home-header></home-header>
+    <app-header></app-header>
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-// @ts-ignore
-import HomeHeader from "@/components/HomeHeader.vue";
+import AppHeader from "@/components/AppHeader.vue";
 import userService from "../../services/user.service";
 import { mapState } from "vuex";
 
 export default Vue.extend({
-  name: "home",
-  components: { HomeHeader },
+  name: "app-content",
+  components: { appHeader: AppHeader },
   computed: mapState(["currentUser"]),
   methods: {},
   async beforeMount() {

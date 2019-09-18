@@ -6,5 +6,9 @@
   {
     "code": "fr",
     "name": "Français"
+  },
+  {
+    "code": "es",
+    "name": "Español"
   }
 ]

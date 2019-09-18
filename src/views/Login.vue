@@ -135,7 +135,7 @@ export default {
         let username = this.username;
         let password = this.password;
 
-        const redirectUrl = this.$route.query.redirect_url || {
+        const redirectUrl = this.$store.state.redirectUrl || {
           name: "home",
           params: this.$route.params
         };

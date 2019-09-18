@@ -1,21 +1,21 @@
 <template>
-  <div class="project">
+  <div class="companies">
     <Helmet>
-      <title>Projects</title>
+      <title>Companies</title>
     </Helmet>
     <div class="container">
       <div class="row">
         <div class="col">
           <div class="list-group">
             <router-link
-              v-for="project in projects"
+              v-for="company in companies"
               :to="{
-                name: 'project-dashboard',
-                params: { slug: project.slug }
+                name: 'company',
+                params: { slug: company.slug }
               }"
-              :key="project.id"
+              :key="company.id"
               class="list-group-item list-group-item-action"
-              >{{ project.name }}</router-link
+              >{{ company.name }}</router-link
             >
           </div>
         </div>
@@ -28,20 +28,19 @@
 import Vue from "vue";
 // @ts-ignore
 import { Helmet } from "@jnields/vue-helmet";
-import projectService from "../../../services/project.service";
+import companyService from "../../../services/company.service";
 
 export default Vue.extend({
-  name: "all-projects",
+  name: "companies",
   components: { Helmet },
   data() {
     return {
-      projects: []
+      companies: []
     };
   },
   async beforeMount() {
     try {
-      // @ts-ignore
-      this.projects = await projectService.getAll();
+      this.companies = await companyService.getAll();
     } catch (e) {
       // console.log(e);
     }

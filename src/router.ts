@@ -3,8 +3,8 @@ import Router from "vue-router";
 import store from "@/store";
 import i18n from "./translation";
 import locales from "@/locales.json";
-import PageNotFound from "@/views/home/PageNotFound.vue";
-import Home from "@/views/home/Home.vue";
+import PageNotFound from "@/views/PageNotFound.vue";
+import AppContent from "@/views/app/AppContent.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 
 Vue.use(Router);
@@ -18,7 +18,6 @@ const LocaleRouter = (routes: any) => {
         component: {
           render: c => c("router-view")
         },
-        // name: "locale",
         children: routes
       }
     ]
@@ -28,7 +27,7 @@ const LocaleRouter = (routes: any) => {
 const router = LocaleRouter([
   {
     path: "/",
-    component: Home,
+    component: AppContent,
     meta: {
       requiresAuth: true
     },
@@ -42,61 +41,71 @@ const router = LocaleRouter([
       {
         path: "about",
         name: "about",
-        component: () => import("./views/home/About.vue")
+        component: () => import("./views/app/pages/About.vue")
       },
       {
         path: "users",
         name: "users",
-        component: () => import("./views/home/user/Users.vue")
+        component: () => import("./views/app/user/Users.vue")
       },
       {
         path: "user/:username",
         name: "user",
-        component: () => import("./views/home/user/User.vue")
+        component: () => import("./views/app/user/User.vue")
       },
       {
         path: "projects",
         name: "projects",
-        component: () => import("./views/home/project/Projects.vue")
+        component: () => import("./views/app/project/Projects.vue")
       },
       {
         path: "project/:slug",
-        component: () => import("./views/home/project/Project.vue"),
+        component: () => import("./views/app/project/Project.vue"),
         children: [
           {
             path: "",
             name: "project-dashboard",
-            component: () => import("./views/home/project/ProjectDashboard.vue")
+            component: () => import("./views/app/project/ProjectDashboard.vue")
           },
           {
             path: "users",
             name: "project-users",
-            component: () => import("./views/home/project/ProjectUsers.vue")
+            component: () => import("./views/app/project/ProjectUsers.vue")
           }
         ]
+      },
+      {
+        path: "companies",
+        name: "companies",
+        component: () => import("./views/app/company/Companies.vue")
+      },
+      {
+        path: "company/:slug",
+        name: "company",
+        component: () => import("./views/app/company/Company.vue")
       }
     ]
   },
   {
     path: "login",
     name: "login",
-    component: () => import("./views/Login.vue")
-    // meta: {
-    //   requiresAuth: false
-    // }
+    component: () => import("./views/Login.vue"),
+    meta: {
+      offlineMode: true
+    }
   },
   {
     path: "password-reset",
     name: "password-reset",
-    component: () => import("./views/PasswordReset.vue")
-    // meta: {
-    //   requiresAuth: false
-    // }
+    component: () => import("./views/PasswordReset.vue"),
+    meta: {
+      offlineMode: true
+    }
   },
   { path: "*", name: "page-not-found", component: PageNotFound }
 ]);
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (
     from.name &&
     to.params.locale === undefined &&
@@ -108,8 +117,7 @@ router.beforeEach((to, from, next) => {
       params: {
         ...to.params,
         locale: from.params.locale
-      },
-      replace: true
+      }
     });
   }
 
@@ -123,7 +131,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (process.env.VUE_APP_LOCALE === localeParam) {
-    // @ts-ignore
+    // @ts-ignore: console error
     return next({
       name: to.name,
       query: to.query,
@@ -140,19 +148,22 @@ router.beforeEach((to, from, next) => {
     (to.meta.requiresAuth || to.matched.find(data => data.meta.requiresAuth)) &&
     !store.getters.isLoggedIn
   ) {
-    const redirectUrl = to.name === "home" ? undefined : to.fullPath;
+    await store.commit("set_redirect_url", { redirectUrl: to.fullPath });
+
+    // const redirectUrl = to.name === "app" ? undefined : to.fullPath;
     return next({
       name: "login",
-      params: to.params,
-      query: { redirect_url: redirectUrl },
-      replace: true // TODO: Le replace est-il vraiment approprié ?
+      params: to.params
+      // query: { redirect_url: redirectUrl },
     });
-  } /* else if (store.getters.isLoggedIn && to.meta.requiresAuth === false) {
-    return next(); // TODO: Deconnecter ou rediriger
-  }*/
+  } else if (store.getters.isLoggedIn && to.meta.offlineMode) {
+    return next({
+      name: "home",
+      params: to.params,
+      replace: true
+    });
+  }
   return next();
 });
-
-// si je viens d'une aure route: = router link donc on garde /lang, sinon directement dans l'url, je set la variable lang TODO: si je switch avec le locale changer
 
 export default router;

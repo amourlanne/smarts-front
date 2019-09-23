@@ -23,8 +23,10 @@ axios.defaults.baseURL = process.env.VUE_APP_API;
 axios.interceptors.response.use(
   config => config,
   error => {
-    const response = error.response;
-    if (response.status == 401 || response.status == 403) {
+    if (
+      error.response &&
+      (error.response.status == 401 || error.response.status == 403)
+    ) {
       window.$cookies.remove("access_token");
       router.push({ name: "login" });
       // TODO: set locale params

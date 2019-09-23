@@ -12,7 +12,7 @@
           aria-expanded="false"
         >
           <img
-            src="../assets/logo.png"
+            src="../../assets/logo.png"
             width="30"
             height="30"
             class="d-inline-block align-top"
@@ -42,7 +42,7 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <router-link :to="{ name: 'home' }" class="nav-link">
-              Home
+              {{ $t("nav.headers.home") }}
             </router-link>
           </li>
           <li class="nav-item dropdown" id="dropdownProjects">
@@ -55,12 +55,12 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              Projects
+              {{ $t("nav.headers.projects") }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link class="dropdown-item" :to="{ name: 'projects' }"
-                >Your projects</router-link
-              >
+              <router-link class="dropdown-item" :to="{ name: 'projects' }">{{
+                $t("yourProjects")
+              }}</router-link>
               <div class="dropdown-divider"></div>
               <h6 class="dropdown-header">All projects</h6>
               <router-link
@@ -78,7 +78,7 @@
           </li>
           <li class="nav-item">
             <router-link :to="{ name: 'about' }" class="nav-link">
-              About
+              {{ $t("nav.headers.about") }}
             </router-link>
           </li>
         </ul>
@@ -106,8 +106,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import LocaleChanger from "./LocaleChanger.vue";
-import projectService from "../services/project.service";
+import LocaleChanger from "../../components/LocaleChanger.vue";
+import projectService from "../../services/project.service";
 import $ from "jquery";
 import { mapState } from "vuex";
 

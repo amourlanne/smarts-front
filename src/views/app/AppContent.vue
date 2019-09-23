@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AppHeader from "@/components/AppHeader.vue";
+import AppHeader from "@/views/app/AppHeader.vue";
 import userService from "../../services/user.service";
 import { mapState } from "vuex";
 

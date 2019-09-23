@@ -5,7 +5,7 @@ import i18n from "./translation";
 import locales from "@/locales.json";
 import PageNotFound from "@/views/PageNotFound.vue";
 import AppContent from "@/views/app/AppContent.vue";
-import HelloWorld from "@/components/HelloWorld.vue";
+import Welcome from "@/views/app/pages/Welcome.vue";
 
 Vue.use(Router);
 
@@ -34,9 +34,8 @@ const router = LocaleRouter([
     children: [
       {
         path: "",
-        component: HelloWorld,
-        name: "home",
-        props: { msg: "Welcome to Your Vue.js + TypeScript App" }
+        component: Welcome,
+        name: "home"
       },
       {
         path: "about",
@@ -143,18 +142,15 @@ router.beforeEach(async (to, from, next) => {
     });
   }
 
-  // if (!(to.meta.requiresAuth === false) && !store.getters.isLoggedIn) {
   if (
     (to.meta.requiresAuth || to.matched.find(data => data.meta.requiresAuth)) &&
     !store.getters.isLoggedIn
   ) {
     await store.commit("set_redirect_url", { redirectUrl: to.fullPath });
 
-    // const redirectUrl = to.name === "app" ? undefined : to.fullPath;
     return next({
       name: "login",
       params: to.params
-      // query: { redirect_url: redirectUrl },
     });
   } else if (store.getters.isLoggedIn && to.meta.offlineMode) {
     return next({

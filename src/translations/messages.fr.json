@@ -9,5 +9,13 @@
   },
   "pageNotFound": "Page introuvable",
   "brokenLink": "On dirait que vous avez suivi un lien cassé ou entré une URL qui n’existe pas sur ce site.",
-  "backToSite": "Retour au site"
+  "backToSite": "Retour au site",
+  "nav": {
+    "headers": {
+      "projects": "Projets",
+      "home": "Accueil",
+      "about": "A propos"
+    }
+  },
+  "yourProjects": "Vos projets"
 }

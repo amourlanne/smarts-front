@@ -19,7 +19,7 @@ export default Vue.extend({
   async beforeMount() {
     if (!this.currentUser) {
       try {
-        const user = await userService.getMe();
+        const user = await userService.getAccount();
         this.$store.commit("set_currentUser", { currentUser: user });
       } catch (e) {
         // console.log(e);

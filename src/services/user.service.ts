@@ -25,10 +25,10 @@ export default {
         });
     });
   },
-  getMe() {
+  getAccount() {
     return new Promise((resolve, reject) => {
       axios
-        .get("/users/me")
+        .get("/account")
         .then(response => {
           resolve(response.data);
         })

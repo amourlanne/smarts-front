@@ -27,61 +27,75 @@ const LocaleRouter = (routes: any) => {
 const router = LocaleRouter([
   {
     path: "/",
-    component: AppContent,
+    component: {
+      render: (c: any) => c("router-view")
+    },
     meta: {
       requiresAuth: true
     },
     children: [
       {
         path: "",
-        component: Welcome,
-        name: "home"
+        name: "organization-chooser",
+        component: () => import("./views/PasswordReset.vue")
       },
       {
-        path: "about",
-        name: "about",
-        component: () => import("./views/app/pages/About.vue")
-      },
-      {
-        path: "users",
-        name: "users",
-        component: () => import("./views/app/user/Users.vue")
-      },
-      {
-        path: "user/:username",
-        name: "user",
-        component: () => import("./views/app/user/User.vue")
-      },
-      {
-        path: "projects",
-        name: "projects",
-        component: () => import("./views/app/project/Projects.vue")
-      },
-      {
-        path: "project/:slug",
-        component: () => import("./views/app/project/Project.vue"),
+        path: "organization/dotsafe",
+        component: AppContent,
         children: [
           {
             path: "",
-            name: "project-dashboard",
-            component: () => import("./views/app/project/ProjectDashboard.vue")
+            component: Welcome,
+            name: "home"
+          },
+          {
+            path: "about",
+            name: "about",
+            component: () => import("./views/app/pages/About.vue")
           },
           {
             path: "users",
-            name: "project-users",
-            component: () => import("./views/app/project/ProjectUsers.vue")
+            name: "users",
+            component: () => import("./views/app/user/Users.vue")
+          },
+          {
+            path: "user/:username",
+            name: "user",
+            component: () => import("./views/app/user/User.vue")
+          },
+          {
+            path: "projects",
+            name: "projects",
+            component: () => import("./views/app/project/Projects.vue")
+          },
+          {
+            path: "project/:slug",
+            component: () => import("./views/app/project/Project.vue"),
+            children: [
+              {
+                path: "",
+                name: "project-dashboard",
+                component: () =>
+                  import("./views/app/project/ProjectDashboard.vue")
+              },
+              {
+                path: "users",
+                name: "project-users",
+                component: () => import("./views/app/project/ProjectUsers.vue")
+              }
+            ]
+          },
+          {
+            path: "companies",
+            name: "companies",
+            component: () => import("./views/app/company/Companies.vue")
+          },
+          {
+            path: "company/:slug",
+            name: "company",
+            component: () => import("./views/app/company/Company.vue")
           }
         ]
-      },
-      {
-        path: "companies",
-        name: "companies",
-        component: () => import("./views/app/company/Companies.vue")
-      },
-      {
-        path: "company/:slug",
-        name: "company",
-        component: () => import("./views/app/company/Company.vue")
       }
     ]
   },
@@ -101,7 +115,7 @@ const router = LocaleRouter([
       offlineMode: true
     }
   },
-  { path: "*", name: "page-not-found", component: PageNotFound }
+  { path: "*", alias: "*", name: "page-not-found", component: PageNotFound }
 ]);
 
 router.beforeEach(async (to, from, next) => {

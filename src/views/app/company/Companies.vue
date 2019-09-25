@@ -39,6 +39,7 @@ export default Vue.extend({
     };
   },
   async beforeMount() {
+    this.$router.push({ name: "page-not-found", params: this.$route.params });
     try {
       this.companies = await companyService.getAll();
     } catch (e) {

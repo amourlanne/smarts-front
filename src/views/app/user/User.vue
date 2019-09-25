@@ -9,7 +9,7 @@
           <div class="app-user" v-if="user">
             <div>{{ user.firstName }} {{ user.lastName }}</div>
             <div>{{ user.email }}</div>
-            <div>{{ user.company.name }}</div>
+            <div v-if="user.company">{{ user.company.name }}</div>
           </div>
         </div>
       </div>
